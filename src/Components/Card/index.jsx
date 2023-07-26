@@ -30,9 +30,9 @@ const Card = (data) => {
     } else {
       return (
         <div
-          className='absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1'
+          className='absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 rounded-full m-2 p-1 hover:bg-black/80'
           onClick={(event) => addProductsToCart(event, data.data)}>
-          <PlusIcon className='h-6 w-6 text-black'></PlusIcon>
+          <PlusIcon className='h-6 w-6 text-black hover:text-white'></PlusIcon>
         </div>
       )
     }
