@@ -107,9 +107,9 @@ const Navbar = () => {
             Sign In
           </NavLink>
         </li>
-        <li className='flex items-center'>
+        <li onClick={() => context.openCheckoutSideMenu()} className='flex items-center cursor-pointer'>
           <ShoppingBagIcon className='h-6 w-6 text-black'></ShoppingBagIcon>
-          <div>{context.cartProducts.length}</div>
+          <span>{context.cartProducts.length}</span>
         </li>
       </ul>
     </nav>
