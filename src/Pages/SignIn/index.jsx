@@ -8,10 +8,10 @@ function SignIn() {
   const [view, setView] = useState('user-info')
   const form = useRef(null)
 
-  // Cuenta
+  // Account
   const account = localStorage.getItem('account')
   const parsedAccount = JSON.parse(account)
-  // Tiene una cuenta
+  // Has an account
   const noAccountInLocalStorage = parsedAccount ? Object.keys(parsedAccount).length === 0 : true
   const noAccountInLocalState = context.account ? Object.keys(context.account).length === 0 : true
   const hasUserAnAccount = !noAccountInLocalStorage || !noAccountInLocalState
@@ -20,125 +20,113 @@ function SignIn() {
     const stringifiedSignOut = JSON.stringify(false)
     localStorage.setItem('sign-out', stringifiedSignOut)
     context.setSignOut(false)
-    return <Navigate replace to={'/'}/>
-   }
+    // Redirect
+    return <Navigate replace to={'/'} />
+  }
 
   const createAnAccount = () => {
-    const formData = new FormData(form.current)
-    const data = {
-      name: formData.get('name'),
-      email: formData.get('email'),
-      password: formData.get('password')
-    }
-
+		const formData = new FormData(form.current)
+		const data = {
+			name: formData.get('name'),
+			email: formData.get('email'),
+			password: formData.get('password')
+		}
+    // Create account
     const stringifiedAccount = JSON.stringify(data)
     localStorage.setItem('account', stringifiedAccount)
     context.setAccount(data)
+    // Sign In
     handleSignIn()
-  }
+	}
 
-  const renderLogin = () => {
-    return(
-      <section className='flex flex-col items-center justify-center w-full h-full'>
-      <h1 className='text-2xl font-semibold mb-5 drop-shadow-md'>Bienvenidos a Shopi</h1>
+  const renderLogIn = () => {
+    return (
       <div className='flex flex-col w-80'>
-
         <p>
-          <span>Email: </span>
-          <span className='font-semibold'>{parsedAccount?.email}</span>
+          <span className='font-light text-sm'>Email: </span>
+          <span>{parsedAccount?.email}</span>
         </p>
-
-        <p className='mb-5'>
-          <span>Contraseña: </span>
-          <span className='font-semibold'>{parsedAccount?.password}</span>
+        <p>
+          <span className='font-light text-sm'>Password: </span>
+          <span>{parsedAccount?.password}</span>
         </p>
-        
-        <Link className='rounded-md' to='/'>
+        <Link
+          to="/">
           <button
-          className='w-full bg-black disabled:bg-black/40 disabled:text-white disabled:border-none border text-white p-3 rounded-md hover:text-black hover:bg-transparent hover:border border-black transition duration-200'
-          disabled={!hasUserAnAccount}
-          onClick={() => handleSignIn()}
-          >
-            Iniciar sesión
+            className='bg-black disabled:bg-black/40 text-white  w-full rounded-lg py-3 mt-4 mb-2'
+            onClick={() => handleSignIn()}
+            disabled={!hasUserAnAccount}>
+            Log in
           </button>
         </Link>
-
-        <a className='text-sm font-normal mt-2 text-center hover:underline hover:underline-offset-2 transition duration-200' href='/'>¿Olvidaste tu contraseña?</a>
-
+        <div className='text-center'>
+          <a className='font-light text-xs underline underline-offset-4' href='/'>Forgot my password</a>
+        </div>
         <button
-        onClick={() => setView('create-user-info')}
-        className='text-black mt-5 border border-black text-sm p-3 rounded-md hover:text-white hover:bg-black transition duration-200 disabled:bg-black/40 disabled:text-white disabled:border-none'
-        disabled={hasUserAnAccount}
-        >
-          Registrarse
+          className='border border-black disabled:text-black/40 disabled:border-black/40 rounded-lg mt-6 py-3'
+          onClick={() => setView('create-user-info')}
+          disabled={hasUserAnAccount}>
+          Sign up
         </button>
-
       </div>
-
-      </section>
     )
   }
 
-  const renderCreateUser = () => {
-    return(
+  const renderCreateUserInfo = () => {
+    return (
       <form ref={form} className='flex flex-col gap-4 w-80'>
-        <h1 className='text-center text-3xl'>Bienvenido a Shopi</h1>
         <div className='flex flex-col gap-1'>
-
-          <label htmlFor="name" className='font-normal text-lg'>Tu nombre:</label>
+          <label htmlFor="name" className='font-light text-sm'>Your name:</label>
           <input
-          type='text'
-          id='name'
-          name='name'
-          defaultValue={parsedAccount?.name}
-          placeholder='Nombre'
-          className='border-2 border-black rounded-md placeholder:font-normal placeholder:text-black/60 focus:outline-none py-2 px-4'
+            type="text"
+            id="name"
+            name="name"
+            defaultValue={parsedAccount?.name}
+            placeholder="Peter"
+            className='rounded-lg border border-black placeholder:font-light
+            placeholder:text-sm placeholder:text-black/60 focus:outline-none py-2 px-4'
           />
-
         </div>
-
         <div className='flex flex-col gap-1'>
-          <label htmlFor="email">Tu email:</label>
-            <input
-            type='text'
-            required
-            id='email'
-            name='email'
+          <label htmlFor="email" className='font-light text-sm'>Your email:</label>
+          <input
+            type="text"
+            id="email"
+            name="email"
             defaultValue={parsedAccount?.email}
-            placeholder='tuemail@gmail.com'
-            className='border-2 border-black rounded-md placeholder:font-normal placeholder:text-black/60 focus:outline-none py-2 px-4'
+            placeholder="hi@helloworld.com"
+            className='rounded-lg border border-black
+            placeholder:font-light placeholder:text-sm placeholder:text-black/60 focus:outline-none py-2 px-4'
           />
         </div>
-
         <div className='flex flex-col gap-1'>
-          <label htmlFor="password">Contraseña</label>
+          <label htmlFor="password" className='font-light text-sm'>Your password:</label>
           <input
-          type='password'
-          id='password'
-          name='password'
-          defaultValue={parsedAccount?.password}
-          placeholder='******'
-          className='border-2 border-black rounded-md placeholder:font-normal placeholder:text-black/60 focus:outline-none py-2 px-4'
+            type="text"
+            id="password"
+            name="password"
+            defaultValue={parsedAccount?.password}
+            placeholder="******"
+            className='rounded-lg border border-black
+            placeholder:font-light placeholder:text-sm placeholder:text-black/60 focus:outline-none py-2 px-4'
           />
         </div>
-
-        <Link to='/'>
+        <Link to="/">
           <button
-          className='bg-black text-white border-2 font-medium w-full rounded-md py-3 hover:text-black hover:border-2 border-black hover:bg-transparent hover:font-medium transition duration-200'
-          onClick={() => createAnAccount()}
-          >
-            Crear cuenta
+            className='bg-black text-white w-full rounded-lg py-3'
+            onClick={() => createAnAccount()}>
+            Create
           </button>
         </Link>
       </form>
     )
-
   }
 
-  const renderView = () => view === 'create-user-info' ? renderCreateUser() : renderLogin()
+  const renderView = () => view === 'create-user-info' ? renderCreateUserInfo() : renderLogIn()
 
   return (
     <Layout>
+      <h1 className="font-medium text-xl text-center mb-6 w-80">Welcome</h1>
       {renderView()}
     </Layout>
   )
